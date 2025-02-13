@@ -3,6 +3,7 @@ import logging
 from deepsearcher.configuration import Configuration, init_config
 from deepsearcher.online_query import query
 from deepsearcher.offline_loading import load_from_local_files, load_from_website
+import os
 
 httpx_logger = logging.getLogger("httpx")  # disable openai's logger output
 httpx_logger.setLevel(logging.WARNING)
@@ -12,6 +13,7 @@ warnings.simplefilter(action='ignore', category=FutureWarning)  # disable warnin
 
 def main():
     config = Configuration()  #Customize your config here
+    config.set_provider_config("llm", "OpenAI", {"model": os.getenv("OPENAI_LIKE_MODEL","gpt-4o")})
     init_config(config = config)
 
     parser = argparse.ArgumentParser(
